@@ -13,9 +13,7 @@ export const tabs = [
 export const App = () => {
   const [activeTabId, setActiveTabId] = useState(tabs[0].id);
 
-  const activeTab = useMemo(() => {
-    return tabs.find(t => t.id === activeTabId) ?? tabs[0];
-  }, [activeTabId]);
+const activeTab = tabs.find(tab => tab.id === activeTabId) ?? tabs[0];
 
   return (
     <div className="section">

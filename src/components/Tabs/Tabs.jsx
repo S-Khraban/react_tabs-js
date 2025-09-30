@@ -1,51 +1,22 @@
 import React from 'react';
+import { TabItem } from './TabItem';
 
-/**
- * @param {{
- *   tabs: {id: string, title: string, content: string}[],
- *   activeTabId?: string,
- *   onTabSelected: (id: string) => void
- * }} props
- */
 export const Tabs = ({ tabs, activeTabId, onTabSelected }) => {
-  if (!Array.isArray(tabs) || tabs.length === 0) {
-    return null;
-  }
-
-  const fallbackId = tabs[0].id;
-  const active = tabs.some(t => t.id === activeTabId)
-    ? activeTabId
-    : fallbackId;
-  const activeTab = tabs.find(t => t.id === active) || tabs[0];
+  const activeTab = tabs.find(tab => tab.id === activeTabId) ?? tabs[0];
 
   return (
     <div data-cy="TabsComponent">
       <div className="tabs is-boxed">
         <ul>
-          {tabs.map(({ id, title }) => {
-            const isActive = id === active;
-
-            return (
-              <li
-                key={id}
-                data-cy="Tab"
-                className={isActive ? 'is-active' : undefined}
-              >
-                <a
-                  data-cy="TabLink"
-                  href={`#${id}`}
-                  onClick={e => {
-                    e.preventDefault();
-                    if (!isActive) {
-                      onTabSelected?.(id);
-                    }
-                  }}
-                >
-                  {title}
-                </a>
-              </li>
-            );
-          })}
+          {tabs.map(({ id, title }) => (
+            <TabItem
+              key={id}
+              id={id}
+              title={title}
+              isActive={id === activeTab.id}
+              onSelect={onTabSelected}
+            />
+          ))}
         </ul>
       </div>
 
